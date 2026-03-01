@@ -60,7 +60,7 @@
 
 <div id="blocks"></div>
 
-<button id="addBlock">Add Interval Block</button>
+<button id="addBlock">Add Interval</button>
 
 <div id="phase">Ready</div>
 <div id="display">00:00</div>
@@ -129,12 +129,12 @@ function buildSequence() {
 
         for (let r = 1; r <= rounds; r++) {
             sequence.push({
-                label: `Running — Block ${i+1}, Round ${r}/${rounds}`,
+                label: `Running (Interval ${i+1}, Round ${r}/${rounds})`,
                 duration: Running
             });
             if (Walking > 0) {
                 sequence.push({
-                    label: `Walking — Block ${i+1}, Round ${r}/${rounds}`,
+                    label: `Walking (Interval ${i+1}, Round ${r}/${rounds})`,
                     duration: Walking
                 });
             }
@@ -186,6 +186,7 @@ addBlock();
 </body>
 
 </html>
+
 
 
 
