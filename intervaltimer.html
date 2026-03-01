@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Offline Interval Timer</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background: #111;
+        color: #fff;
+        text-align: center;
+        padding: 20px;
+    }
+    h1 { margin-bottom: 10px; }
+    .block {
+        background: #222;
+        padding: 10px;
+        margin: 10px 0;
+        border-radius: 8px;
+    }
+    input {
+        width: 70px;
+        padding: 6px;
+        font-size: 16px;
+        text-align: center;
+        margin: 5px;
+        border-radius: 6px;
+        border: none;
+    }
+    button {
+        padding: 10px 16px;
+        margin: 10px;
+        font-size: 18px;
+        border: none;
+        border-radius: 6px;
+        background: #28a745;
+        color: white;
+    }
+    button.small {
+        padding: 6px 10px;
+        font-size: 14px;
+        background: #444;
+    }
+    button.pause { background: #ffc107; }
+    button.reset { background: #dc3545; }
+    #display {
+        font-size: 80px;
+        margin: 40px 0;
+    }
+    #phase {
+        font-size: 32px;
+        margin-bottom: 10px;
+    }
+</style>
+</head>
+<body>
+
+<h1>Interval Timer</h1>
+
+<div id="blocks"></div>
+
+<button id="addBlock">Add Interval Block</button>
+
+<div id="phase">Ready</div>
+<div id="display">00:00</div>
+
+<button id="startBtn">Start</button>
+<button id="pauseBtn" class="pause">Pause</button>
+<button id="resetBtn" class="reset">Reset</button>
+
+<script>
+let sequence = [];
+let seqIndex = 0;
+let timeLeft = 0;
+let timer = null;
+
+function beep() {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    const osc = ctx.createOscillator();
+    osc.frequency.value = 800;
+    osc.connect(ctx.destination);
+    osc.start();
+    osc.stop(ctx.currentTime + 0.15);
+}
+
+function updateDisplay() {
+    const m = String(Math.floor(timeLeft / 60)).padStart(2, "0");
+    const s = String(timeLeft % 60).padStart(2, "0");
+    document.getElementById("display").textContent = `${m}:${s}`;
+}
+
+function startNext() {
+    if (seqIndex >= sequence.length) {
+        document.getElementById("phase").textContent = "Done!";
+        beep();
+        return;
+    }
+
+    const step = sequence[seqIndex];
+    timeLeft = step.duration;
+    document.getElementById("phase").textContent = `${step.label}`;
+    updateDisplay();
+    beep();
+
+    timer = setInterval(() => {
+        if (timeLeft < 0) {
+            clearInterval(timer);
+            seqIndex++;
+            startNext();
+        } else {
+            updateDisplay();
+            timeLeft--;
+	}
+    }, 1000);
+}
+
+function buildSequence() {
+    sequence = [];
+    const blocks = document.querySelectorAll(".block");
+
+    blocks.forEach((block, i) => {
+        const work = parseInt(block.querySelector(".work").value);
+        const rest = parseInt(block.querySelector(".rest").value);
+        const rounds = parseInt(block.querySelector(".rounds").value);
+
+        for (let r = 1; r <= rounds; r++) {
+            sequence.push({
+                label: `Work — Block ${i+1}, Round ${r}/${rounds}`,
+                duration: work
+            });
+            if (rest > 0) {
+                sequence.push({
+                    label: `Rest — Block ${i+1}, Round ${r}/${rounds}`,
+                    duration: rest
+                });
+            }
+        }
+    });
+}
+
+function addBlock(work=30, rest=15, rounds=1) {
+    const div = document.createElement("div");
+    div.className = "block";
+    div.innerHTML = `
+        <label>Work (sec): <input class="work" type="number" value="${work}"></label>
+        <label>Rest (sec): <input class="rest" type="number" value="${rest}"></label>
+        <label>Rounds: <input class="rounds" type="number" value="${rounds}"></label>
+        <button class="small remove">Delete</button>
+    `;
+    div.querySelector(".remove").onclick = () => div.remove();
+    document.getElementById("blocks").appendChild(div);
+}
+
+document.getElementById("addBlock").onclick = () => addBlock();
+
+document.getElementById("startBtn").onclick = () => {
+    if (timer) return;
+    buildSequence();
+    seqIndex = 0;
+    startNext();
+};
+
+document.getElementById("pauseBtn").onclick = () => {
+    if (timer) {
+        clearInterval(timer);
+        timer = null;
+    }
+};
+
+document.getElementById("resetBtn").onclick = () => {
+    clearInterval(timer);
+    timer = null;
+    seqIndex = 0;
+    document.getElementById("phase").textContent = "Ready";
+    document.getElementById("display").textContent = "00:00";
+};
+
+// Add one default block on load
+addBlock();
+</script>
+
+</body>
+</html>
