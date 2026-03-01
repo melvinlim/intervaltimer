@@ -100,7 +100,7 @@ function startNext() {
     const step = sequence[seqIndex];
     timeLeft = step.duration;
     document.getElementById("phase").textContent = `${step.label}`;
-    updateDisplay();
+    //updateDisplay();
     beep();
 
     timer = setInterval(() => {
@@ -109,9 +109,9 @@ function startNext() {
             seqIndex++;
             startNext();
         } else {
-            updateDisplay();
-            timeLeft--;
-	}
+	        updateDisplay();
+    	    timeLeft--;
+		}
     }, 1000);
 }
 
@@ -139,7 +139,7 @@ function buildSequence() {
     });
 }
 
-function addBlock(work=30, rest=15, rounds=1) {
+function addBlock(work=3, rest=2, rounds=2) {
     const div = document.createElement("div");
     div.className = "block";
     div.innerHTML = `
@@ -183,3 +183,4 @@ addBlock();
 </body>
 
 </html>
+
