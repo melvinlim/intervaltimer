@@ -94,6 +94,9 @@ function startNext() {
     if (seqIndex >= sequence.length) {
         document.getElementById("phase").textContent = "Done!";
         beep();
+		clearInterval(timer);
+	    timer = null;
+	    seqIndex = 0;
         return;
     }
 
@@ -183,4 +186,5 @@ addBlock();
 </body>
 
 </html>
+
 
