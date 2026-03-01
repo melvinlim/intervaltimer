@@ -66,7 +66,7 @@
 <div id="display">00:00</div>
 
 <button id="startBtn">Start</button>
-<button id="pauseBtn" class="pause">Pause</button>
+<!-- <button id="pauseBtn" class="pause">Pause</button> -->
 <button id="resetBtn" class="reset">Reset</button>
 
 <script>
@@ -160,14 +160,14 @@ document.getElementById("startBtn").onclick = () => {
     seqIndex = 0;
     startNext();
 };
-
+/*
 document.getElementById("pauseBtn").onclick = () => {
     if (timer) {
         clearInterval(timer);
         timer = null;
     }
 };
-
+*/
 document.getElementById("resetBtn").onclick = () => {
     clearInterval(timer);
     timer = null;
@@ -181,4 +181,5 @@ addBlock();
 </script>
 
 </body>
+
 </html>
