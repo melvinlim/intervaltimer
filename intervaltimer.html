@@ -142,13 +142,13 @@ function buildSequence() {
     });
 }
 
-function addBlock(Running=3, Walking=2, rounds=2) {
+function addBlock(Running=180, Walking=60, rounds=5) {
     const div = document.createElement("div");
     div.className = "block";
     div.innerHTML = `
-        <label>Running (sec): <input class="Running" type="number" value="${Running}"></label>
-        <label>Walking (sec): <input class="Walking" type="number" value="${Walking}"></label>
-        <label>Rounds: <input class="rounds" type="number" value="${rounds}"></label>
+        <label>Running (sec): <input class="Running" type="number" value="${Running}"></label><br>
+        <label>Walking (sec): <input class="Walking" type="number" value="${Walking}"></label><br>
+        <label>Rounds: <input class="rounds" type="number" value="${rounds}"></label><br>
         <button class="small remove">Delete</button>
     `;
     div.querySelector(".remove").onclick = () => div.remove();
@@ -186,6 +186,7 @@ addBlock();
 </body>
 
 </html>
+
 
 
 
