@@ -123,31 +123,31 @@ function buildSequence() {
     const blocks = document.querySelectorAll(".block");
 
     blocks.forEach((block, i) => {
-        const Running = parseInt(block.querySelector(".Running").value);
-        const Walking = parseInt(block.querySelector(".Walking").value);
+        const Running = parseFloat(block.querySelector(".Running").value);
+        const Walking = parseFloat(block.querySelector(".Walking").value);
         const rounds = parseInt(block.querySelector(".rounds").value);
 
         for (let r = 1; r <= rounds; r++) {
             sequence.push({
                 label: `Running (Interval ${i+1}, Round ${r}/${rounds})`,
-                duration: Running
+                duration: Running*60
             });
             if (Walking > 0) {
                 sequence.push({
                     label: `Walking (Interval ${i+1}, Round ${r}/${rounds})`,
-                    duration: Walking
+                    duration: Walking*60
                 });
             }
         }
     });
 }
 
-function addBlock(Running=180, Walking=60, rounds=5) {
+function addBlock(Running=3, Walking=1, rounds=5) {
     const div = document.createElement("div");
     div.className = "block";
     div.innerHTML = `
-        <label>Running (sec): <input class="Running" type="number" value="${Running}"></label><br>
-        <label>Walking (sec): <input class="Walking" type="number" value="${Walking}"></label><br>
+        <label>Running (min): <input class="Running" type="number" value="${Running}"></label><br>
+        <label>Walking (min): <input class="Walking" type="number" value="${Walking}"></label><br>
         <label>Rounds: <input class="rounds" type="number" value="${rounds}"></label><br>
         <button class="small remove">Delete</button>
     `;
@@ -186,6 +186,7 @@ addBlock();
 </body>
 
 </html>
+
 
 
 
