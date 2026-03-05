@@ -56,11 +56,13 @@
 </head>
 <body>
 
+<div id="UISection">
 <h1>Interval Timer</h1>
 
 <div id="blocks"></div>
 
 <button id="addBlock">Add Interval</button>
+</div>
 
 <div id="phase">Ready</div>
 <div id="display">00:00</div>
@@ -74,6 +76,8 @@ let sequence = [];
 let seqIndex = 0;
 let timeLeft = 0;
 let timer = null;
+
+const section = document.getElementById("UISection");
 
 function beep() {
     const ctx = new (window.AudioContext || window.webkitAudioContext)();
@@ -97,6 +101,7 @@ function startNext() {
 		clearInterval(timer);
 	    timer = null;
 	    seqIndex = 0;
+		section.style.display = "block";	//show UI section
         return;
     }
 
@@ -159,6 +164,7 @@ document.getElementById("addBlock").onclick = () => addBlock();
 
 document.getElementById("startBtn").onclick = () => {
     if (timer) return;
+	section.style.display = "none";	//hide UI section
     buildSequence();
     seqIndex = 0;
     startNext();
@@ -174,6 +180,7 @@ document.getElementById("pauseBtn").onclick = () => {
 document.getElementById("resetBtn").onclick = () => {
     clearInterval(timer);
     timer = null;
+	section.style.display = "block";	//show UI section
     seqIndex = 0;
     document.getElementById("phase").textContent = "Ready";
     document.getElementById("display").textContent = "00:00";
@@ -186,6 +193,7 @@ addBlock();
 </body>
 
 </html>
+
 
 
 
