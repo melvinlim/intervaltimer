@@ -159,9 +159,9 @@ function addBlock(Running=4, Walking=1, rounds=5) {
     const div = document.createElement("div");
     div.className = "block";
     div.innerHTML = `
-        <label>Running (min): <input class="Running" type="tel" inputmode="numeric" value="${Running}" onfocus="this.select();this.setSelectionRange(0,this.value.length);"></label><br>
-        <label>Walking (min): <input class="Walking" type="tel" inputmode="numeric" value="${Walking}" onfocus="this.select();this.setSelectionRange(0,this.value.length);"></label><br>
-        <label>Rounds: <input class="rounds" type="tel" inputmode="numeric" value="${rounds}" onfocus="this.select();this.setSelectionRange(0,this.value.length);"></label><br>
+        <label>Running (min): <input class="Running" type="text" inputmode="decimal" value="${Running}" onfocus="this.select();this.setSelectionRange(0,this.value.length);"></label><br>
+        <label>Walking (min): <input class="Walking" type="text" inputmode="decimal" value="${Walking}" onfocus="this.select();this.setSelectionRange(0,this.value.length);"></label><br>
+        <label>Rounds: <input class="rounds" type="text" inputmode="decimal" value="${rounds}" onfocus="this.select();this.setSelectionRange(0,this.value.length);"></label><br>
         <button class="small remove">Delete</button>
     `;
     div.querySelector(".remove").onclick = () => div.remove();
